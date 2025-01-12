@@ -110,7 +110,7 @@ public class PaymentWindow extends JFrame {
                 summary.append(String.format("  Price: ₱%d\n\n", moviePrice));
             }
 
-            summary.append("Concessions:\n");
+            summary.append("Snacks and Drinks:\n");
             if (popcornCheckBox.isSelected()) summary.append("  Popcorn: ₱100\n");
             if (drinkCheckBox.isSelected()) summary.append("  Drink: ₱50\n");
             summary.append("\n");
