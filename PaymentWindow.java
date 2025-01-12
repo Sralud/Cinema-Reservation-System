@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 import java.util.Random;
+import java.util.ArrayList;
 
 public class PaymentWindow extends JFrame {
     private JTextField paymentField;
@@ -22,7 +23,7 @@ public class PaymentWindow extends JFrame {
         this.previousWindow = previousWindow;
 
         setTitle("Payment - " + movie);
-        setSize(600, 500);
+        setSize(700, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout(20, 20));
         getContentPane().setBackground(new Color(240, 240, 240));
@@ -66,9 +67,9 @@ public class PaymentWindow extends JFrame {
     private void createSummaryPanel() {
         JPanel summaryPanel = new JPanel(new BorderLayout(10, 10));
         summaryPanel.setOpaque(false);
-        summaryArea = new JTextArea(15, 30);
+        summaryArea = new JTextArea(20, 35);
         summaryArea.setEditable(false);
-        summaryArea.setFont(new Font("Arial", Font.PLAIN, 14));
+        summaryArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
         JScrollPane scrollPane = new JScrollPane(summaryArea);
         summaryPanel.add(scrollPane, BorderLayout.CENTER);
 
@@ -94,26 +95,29 @@ public class PaymentWindow extends JFrame {
             }
 
             int change = payment - totalPrice;
-            String ticketNumber = String.format("%04d", new Random().nextInt(10000));
+            List<String> ticketNumbers = generateTicketNumbers(selectedSeats.size());
 
-            StringBuilder summary = new StringBuilder("--- Reservation Summary ---\n");
+            StringBuilder summary = new StringBuilder("--- Reservation Summary ---\n\n");
             summary.append("Movie: ").append(selectedMovie).append("\n");
-            summary.append("Show Time: ").append(selectedShowTime).append("\n");
-            summary.append("Seats: ");
-            for (Point seat : selectedSeats) {
-                summary.append(String.format("%c%d ", (char)('A' + seat.x), seat.y + 1));
-            }
-            summary.append("\n");
-            summary.append("Price per Ticket: ₱").append(moviePrice).append("\n");
-            summary.append("Total Ticket Price: ₱").append(moviePrice * selectedSeats.size()).append("\n");
+            summary.append("Show Time: ").append(selectedShowTime).append("\n\n");
+            summary.append("Individual Tickets:\n");
 
-            if (popcornCheckBox.isSelected()) summary.append("Popcorn: ₱100\n");
-            if (drinkCheckBox.isSelected()) summary.append("Drink: ₱50\n");
+            for (int i = 0; i < selectedSeats.size(); i++) {
+                Point seat = selectedSeats.get(i);
+                summary.append(String.format("Ticket %d:\n", i + 1));
+                summary.append(String.format("  Seat: %c%d\n", (char)('A' + seat.x), seat.y + 1));
+                summary.append(String.format("  Ticket Number: %s\n", ticketNumbers.get(i)));
+                summary.append(String.format("  Price: ₱%d\n\n", moviePrice));
+            }
+
+            summary.append("Concessions:\n");
+            if (popcornCheckBox.isSelected()) summary.append("  Popcorn: ₱100\n");
+            if (drinkCheckBox.isSelected()) summary.append("  Drink: ₱50\n");
+            summary.append("\n");
 
             summary.append("Total Price: ₱").append(totalPrice).append("\n");
             summary.append("Paid: ₱").append(payment).append("\n");
-            summary.append("Change: ₱").append(change).append("\n");
-            summary.append("Ticket Number: ").append(ticketNumber).append("\n");
+            summary.append("Change: ₱").append(change).append("\n\n");
             summary.append("Enjoy your movie!");
 
             summaryArea.setText(summary.toString());
@@ -129,6 +133,15 @@ public class PaymentWindow extends JFrame {
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Please enter a valid payment amount.");
         }
+    }
+
+    private List<String> generateTicketNumbers(int count) {
+        List<String> ticketNumbers = new ArrayList<>();
+        Random random = new Random();
+        for (int i = 0; i < count; i++) {
+            ticketNumbers.add(String.format("%04d", random.nextInt(10000)));
+        }
+        return ticketNumbers;
     }
 
     private void backToMenu() {
