@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.net.URL;
 
 public class MovieSelectionWindow extends JFrame {
@@ -32,55 +31,77 @@ public class MovieSelectionWindow extends JFrame {
     private JLabel priceLabel;
 
     public MovieSelectionWindow() {
-        setTitle("Movie Selection");
-        setSize(600, 400);
+        setTitle("Cinema Reservation System");
+        setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
+        setLayout(new BorderLayout(20, 20));
+        getContentPane().setBackground(new Color(240, 240, 240));
 
         JPanel mainPanel = new JPanel(new GridBagLayout());
+        mainPanel.setBackground(new Color(240, 240, 240));
         GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
 
-        movieComboBox = new JComboBox<>(MOVIES);
-        movieComboBox.addActionListener(e -> updateMovieInfo());
+        JLabel titleLabel = new JLabel("Select a Movie");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        mainPanel.add(titleLabel, gbc);
+
+        movieComboBox = new JComboBox<>(MOVIES);
+        movieComboBox.setFont(new Font("Arial", Font.PLAIN, 16));
+        movieComboBox.addActionListener(e -> updateMovieInfo());
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         mainPanel.add(movieComboBox, gbc);
 
         posterLabel = new JLabel();
         updatePosterImage(0);
-        gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         gbc.gridwidth = 1;
         gbc.gridheight = 2;
+        gbc.fill = GridBagConstraints.NONE;
         mainPanel.add(posterLabel, gbc);
 
-        descriptionArea = new JTextArea(DESCRIPTIONS[0]);
+        descriptionArea = new JTextArea(DESCRIPTIONS[0], 5, 20);
         descriptionArea.setWrapStyleWord(true);
         descriptionArea.setLineWrap(true);
         descriptionArea.setOpaque(false);
         descriptionArea.setEditable(false);
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        gbc.gridwidth = 1;
-        gbc.gridheight = 1;
-        mainPanel.add(descriptionArea, gbc);
-
-        showTimeComboBox = new JComboBox<>(SHOW_TIMES[0]);
+        descriptionArea.setFont(new Font("Arial", Font.PLAIN, 14));
+        JScrollPane scrollPane = new JScrollPane(descriptionArea);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
         gbc.gridx = 1;
         gbc.gridy = 2;
-        mainPanel.add(showTimeComboBox, gbc);
+        gbc.gridheight = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        mainPanel.add(scrollPane, gbc);
+
+        JPanel timeAndPricePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        timeAndPricePanel.setOpaque(false);
+        showTimeComboBox = new JComboBox<>(SHOW_TIMES[0]);
+        showTimeComboBox.setFont(new Font("Arial", Font.PLAIN, 14));
+        timeAndPricePanel.add(new JLabel("Show Time: "));
+        timeAndPricePanel.add(showTimeComboBox);
 
         priceLabel = new JLabel("Price: ₱" + PRICES[0]);
-        gbc.gridx = 0;
+        priceLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        timeAndPricePanel.add(Box.createHorizontalStrut(20));
+        timeAndPricePanel.add(priceLabel);
+
+        gbc.gridx = 1;
         gbc.gridy = 3;
-        gbc.gridwidth = 2;
-        mainPanel.add(priceLabel, gbc);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        mainPanel.add(timeAndPricePanel, gbc);
 
         add(mainPanel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        buttonPanel.setOpaque(false);
         JButton nextButton = new JButton("Next");
+        nextButton.setFont(new Font("Arial", Font.BOLD, 16));
         nextButton.addActionListener(e -> openSeatSelection());
         buttonPanel.add(nextButton);
         add(buttonPanel, BorderLayout.SOUTH);
@@ -100,7 +121,7 @@ public class MovieSelectionWindow extends JFrame {
         try {
             URL imageUrl = new URL(POSTERS[index]);
             ImageIcon imageIcon = new ImageIcon(imageUrl);
-            Image image = imageIcon.getImage().getScaledInstance(150, 200, Image.SCALE_SMOOTH);
+            Image image = imageIcon.getImage().getScaledInstance(200, 300, Image.SCALE_SMOOTH);
             posterLabel.setIcon(new ImageIcon(image));
         } catch (Exception e) {
             e.printStackTrace();
