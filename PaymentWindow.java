@@ -126,6 +126,9 @@ public class PaymentWindow extends JFrame {
             int change = payment - totalPrice;
             List<String> ticketNumbers = generateTicketNumbers(selectedSeats.size());
 
+            // Reserve the seats
+            SeatManager.reserveSeats(selectedMovie, selectedSeats);
+
             StringBuilder summary = new StringBuilder("--- Reservation Summary ---\n\n");
             summary.append("Movie: ").append(selectedMovie).append("\n");
             summary.append("Show Time: ").append(selectedShowTime).append("\n\n");

@@ -6,7 +6,6 @@ import java.util.List;
 public class SeatSelectionWindow extends JFrame {
     private static final int ROWS = 7;
     private static final int SEATS_PER_ROW = 10;
-    private static boolean[][] seatAvailability = new boolean[ROWS][SEATS_PER_ROW];
 
     private JButton[][] seatButtons;
     private List<Point> selectedSeats = new ArrayList<>();
@@ -28,7 +27,6 @@ public class SeatSelectionWindow extends JFrame {
         setLayout(new BorderLayout(20, 20));
         getContentPane().setBackground(new Color(240, 240, 240));
 
-        initializeSeats();
         createSeatPanel();
 
         JPanel bottomPanel = new JPanel(new BorderLayout());
@@ -57,20 +55,14 @@ public class SeatSelectionWindow extends JFrame {
         setVisible(true);
     }
 
-    private void initializeSeats() {
-        for (int i = 0; i < ROWS; i++) {
-            for (int j = 0; j < SEATS_PER_ROW; j++) {
-                seatAvailability[i][j] = true;
-            }
-        }
-    }
-
     private void createSeatPanel() {
         JPanel seatPanel = new JPanel(new GridBagLayout());
         seatPanel.setBackground(new Color(240, 240, 240));
         seatButtons = new JButton[ROWS][SEATS_PER_ROW];
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
+
+        boolean[][] seatAvailability = SeatManager.getSeatsForMovie(selectedMovie);
 
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < SEATS_PER_ROW; j++) {
@@ -85,7 +77,10 @@ public class SeatSelectionWindow extends JFrame {
                 int row = i, seat = j;
                 seatButtons[i][j].addActionListener(e -> toggleSeat(row, seat));
 
-                if (i >= ROWS - 2) {
+                if (seatAvailability[i][j]) {
+                    seatButtons[i][j].setBackground(Color.RED);
+                    seatButtons[i][j].setEnabled(false);
+                } else if (i >= ROWS - 2) {
                     seatButtons[i][j].setBackground(new Color(255, 255, 200));
                     seatButtons[i][j].setToolTipText("Premium Seat");
                 } else {
@@ -113,7 +108,8 @@ public class SeatSelectionWindow extends JFrame {
     }
 
     private void toggleSeat(int row, int seat) {
-        if (seatAvailability[row][seat]) {
+        boolean[][] seatAvailability = SeatManager.getSeatsForMovie(selectedMovie);
+        if (!seatAvailability[row][seat]) {
             Point seatPoint = new Point(row, seat);
             if (selectedSeats.contains(seatPoint)) {
                 selectedSeats.remove(seatPoint);
