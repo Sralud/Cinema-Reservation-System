@@ -104,7 +104,10 @@ public class SeatSelectionWindow extends JFrame {
         mainPanel.add(screenLabel, BorderLayout.NORTH);
         mainPanel.add(seatPanel, BorderLayout.CENTER);
 
-        add(new JScrollPane(mainPanel), BorderLayout.CENTER);
+        JScrollPane scrollPane = new JScrollPane(mainPanel);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        add(scrollPane, BorderLayout.CENTER);
     }
 
     private void toggleSeat(int row, int seat) {
@@ -142,8 +145,8 @@ public class SeatSelectionWindow extends JFrame {
             "Confirm Seats",
             JOptionPane.YES_NO_OPTION);
         if (result == JOptionPane.YES_OPTION) {
-            new PaymentWindow(selectedMovie, selectedShowTime, moviePrice, selectedSeats, this);
-            this.setVisible(false);
+            new PaymentWindow(selectedMovie, selectedShowTime, moviePrice, selectedSeats);
+            this.dispose();
         }
     }
 

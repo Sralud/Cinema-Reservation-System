@@ -13,7 +13,8 @@ public class PaymentWindow extends JFrame {
     private String selectedShowTime;
     private int moviePrice;
     private List<Point> selectedSeats;
-    private JFrame previousWindow;
+    // Remove this line since we don't need to track the previous window anymore
+    // private JFrame previousWindow;
 
     private Map<String, JSpinner> snackSpinners = new HashMap<>();
     private Map<String, JSpinner> drinkSpinners = new HashMap<>();
@@ -23,12 +24,14 @@ public class PaymentWindow extends JFrame {
     private static final String[] DRINKS = {"Milktea", "Iced Tea", "Coke", "Mountain Dew", "Water"};
     private static final int[] DRINK_PRICES = {90, 60, 50, 50, 30};
 
-    public PaymentWindow(String movie, String showTime, int price, List<Point> seats, JFrame previousWindow) {
+    // Update the constructor to remove the previousWindow parameter
+    public PaymentWindow(String movie, String showTime, int price, List<Point> seats) {
         this.selectedMovie = movie;
         this.selectedShowTime = showTime;
         this.moviePrice = price;
         this.selectedSeats = seats;
-        this.previousWindow = previousWindow;
+        // Remove this line
+        // this.previousWindow = previousWindow;
 
         setTitle("Payment - " + movie);
         setSize(900, 700);
