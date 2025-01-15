@@ -1,4 +1,15 @@
-# Cinema-Reservation-System
+## Cinema-Reservation-System
+
+The Cinema Reservation System is a Java-based desktop application designed to streamline the movie ticket booking process for both cinema-goers and theater operators. This user-friendly program offers an intuitive interface for selecting movies, choosing seats, and completing transactions, all while providing an efficient management system for cinema administrators.
+
+
+
+
+
+
+
+
+
 
 Version 1 (Dec. 30, 2024):
 
