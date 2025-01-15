@@ -13,14 +13,23 @@ The **Cinema Reservation System** is a Java-based desktop application designed t
 - **Persistent Seat Management**: Seats remain marked as occupied for subsequent bookings of the same movie.
 - **User-friendly Interface**: Clean and intuitive GUI built with Java Swing for ease of use.
 
+## Benefits
 
+### For Movie-goers:
+- Convenient and quick booking process from the comfort of your home or on-the-go.
+- Clear visualization of available seats to make informed choices.
+- Ability to pre-order concessions, saving time at the theater.
+- Secure and straightforward payment system.
 
+### For Cinema Operators:
+- Efficient management of seat inventory across multiple movies and showtimes.
+- Reduced workload on box office staff by automating the booking process.
+- Increased concession sales through integrated pre-ordering.
+- Real-time updates on ticket sales and seat availability.
 
+This **Cinema Reservation System** offers a comprehensive solution for modern movie theaters, enhancing the movie-going experience while optimizing operational efficiency.
 
-
-
-
-
+## Development Timeline
 
 Version 1 (Dec. 30, 2024):
 
